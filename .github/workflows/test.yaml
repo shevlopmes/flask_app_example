@@ -1,0 +1,39 @@
+name: Build and Test Flask App
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  docker_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t flask-app .
+
+      - name: Run Docker container in detached mode
+        run: docker run -d --name flask-container -p 8080:8080 flask-app
+
+      - name: Wait for Flask app to be ready
+        run: |
+          until $(curl --output /dev/null --silent --head --fail http://localhost:8080); do
+            echo "Waiting for the Flask app to start..."
+            sleep 5
+          done
+
+      - name: Run tests (send HTTP requests to the app)
+        run: python test_app.py
+
+      - name: Stop and remove Docker container
+        if: always()
+        run: |
+          docker stop flask-container
+          docker rm flask-container

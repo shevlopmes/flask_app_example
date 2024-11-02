@@ -6,5 +6,4 @@ COPY . /app
 
 RUN pip install -r requirements.txt
 
-
-CMD ["flask", "--app", "server.py", "run", "-h", "0.0.0.0", "-p", "8080"]
+CMD ["flask", "--app", "server.py", "run", "-h", "0.0.0.0", "-p", "8081"]
