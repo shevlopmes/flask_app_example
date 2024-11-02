@@ -30,7 +30,7 @@ jobs:
           done
 
       - name: Run tests (send HTTP requests to the app)
-        run: python test_server.py
+        run: pytest -v tests/
 
       - name: Stop and remove Docker container
         if: always()
