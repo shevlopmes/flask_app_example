@@ -16,32 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install pytest
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest
-          pip install requests  
-
       - name: Build Docker image
         run: docker build -t flask-app .
 
-      - name: Run Docker container in detached mode
-        run: docker run -d --name flask-container -p 8080:8080 flask-app
-
-      - name: Wait for Flask app to be ready
-        run: |
-          until $(curl --output /dev/null --silent --head --fail http://localhost:8080); do
-            echo "Waiting for the Flask app to start..."
-            sleep 5
-          done
-
-      - name: Run tests
-        run: pytest -v tests/
+      - name: Run Docker container and execute tests
+        run: docker run --name flask-container flask-app pytest -v tests/
 
       - name: Stop and remove Docker container
         if: always()
