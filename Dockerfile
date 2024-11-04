@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install -r requirements.txt
+RUN pip install -r rfe4fequirements.txt
 ENV PYTHONPATH=/app
 
 EXPOSE 8080
