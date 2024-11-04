@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install -r requi fcfrcrements.txt
+RUN pip install -r requirements.txt
 ENV PYTHONPATH=/app
 
 EXPOSE 8080
