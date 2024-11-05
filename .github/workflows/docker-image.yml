@@ -21,4 +21,4 @@ jobs:
       run: docker run -d -p 8080:8080 --name my_app_container -t app
 
     - name: Run client script
-      run: docker exec my_app_container python /app/client.py
+      run: docker exec my_app_container python app/client.py
